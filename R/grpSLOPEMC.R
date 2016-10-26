@@ -20,7 +20,7 @@
 
 #' @useDynLib grpSLOPEMC
 #' @importFrom Rcpp sourceCpp
-#' @importFrom stats pchisq qchisq uniroot
+#' @importFrom stats qnorm pchisq qchisq uniroot
 NULL
 #> NULL
 
@@ -87,39 +87,29 @@ NULL
 #' @references M. Bogdan, E. van den Berg, C. Sabatti, W. Su, E. Candes (2015), \emph{SLOPE -- Adaptive variable selection via convex optimization}, Annals of Applied Statistics
 #'
 #' @export
-lambdaMCGroupSLOPE <- function(fdr=0.1, n.group=NULL, group=NULL,
-                               A=NULL, y=NULL, wt=NULL, n.obs=NULL, method,
-                               n.MC=floor(n.group/2), MC.reps=5000)
+lambdaMC <- function(fdr=0.1, group, A, y=NULL, wt=NULL, method,
+                     n.MC, MC.reps=5000)
 {
   # Prepare grouping information
-  if (!is.null(group)) {
-    group.id    <- getGroupID(group)
-    n.group     <- length(group.id)
-    group.sizes <- sapply(group.id, FUN=length)
-  }
+  group.id <- grpSLOPE::getGroupID(group)
+  n.group  <- length(group.id)
 
-  if (is.null(n.group)) {
-    stop("Either n.group or group needs to be passed as function argument.")
+  if (n.MC > n.group) {
+    warning("n.MC is not allowed to exceed the number of groups.")
+    n.MC <- n.group
   }
 
   if (method=="gaussianMC") {
-    if (is.null(A) || is.null(group)) {
-      stop("A and group need to be passed as arguments when method is 'gaussianMC'.")
-    }
-
     return(lambdaGaussianMC(fdr=fdr, n.group=n.group, group.id=group.id,
                             A=A, n.MC=n.MC, MC.reps=MC.reps))
     
   } else if (method == "chiMC") {
-    if (is.null(group) || is.null(wt)) {
-      stop("Arguments group and wt need to be provided when method is 'chiMC'.")
+    if (is.null(y) || is.null(wt)) {
+      stop("y and wt need to be passed as arguments when method is 'chiMC'.")
     }
 
-    if (is.null(y) || is.null(A) || is.null(group) || is.null(wt)) {
-      stop("A, y, group and wt need to be passed as arguments when method is 'chiMC'.")
-    }
-
-    return(lambdaChiMC(fdr=fdr, X=A, y=y, group.id=group.id, wt=wt, n.MC=n.MC, MC.reps=MC.reps))
+    return(lambdaChiMC(fdr=fdr, X=A, y=y, group.id=group.id, wt=wt,
+                       n.MC=n.MC, MC.reps=MC.reps))
 
   } else {
     stop(paste(method, "is not a valid method."))

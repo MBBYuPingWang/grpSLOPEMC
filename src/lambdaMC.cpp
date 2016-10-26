@@ -158,7 +158,7 @@ VectorXd makeNonIncreasing(const VectorXd& cy)
 
 //' Monte Carlo based adjustment of the SLOPE tuning parameters
 //'
-//' \code{lambdaMC} adjusts the SLOPE regularizing sequence for correlations in 
+//' \code{lambdaGaussianMC} adjusts the SLOPE regularizing sequence for correlations in 
 //'    the data via a Monte Carlo approach which assumes normality of the error terms.
 //'
 //' @param lambda_BH The regualrizing sequence as used in Theorem 1.1 in Bogdan et. al. (2015)
@@ -170,7 +170,7 @@ VectorXd makeNonIncreasing(const VectorXd& cy)
 //' @references M. Bogdan, E. van den Berg, C. Sabatti, W. Su, E. Candes (2015), \emph{SLOPE -- Adaptive variable selection via convex optimization}, \url{http://arxiv.org/abs/1407.3824}
 //'
 // [[Rcpp::export]]
-Eigen::VectorXd lambdaMC(const Eigen::Map<Eigen::VectorXd>& lambda_BH, 
+Eigen::VectorXd lambdaGaussianMCRcpp(const Eigen::Map<Eigen::VectorXd>& lambda_BH, 
         const Eigen::Map<Eigen::MatrixXd>& X, int lambda_length, 
         int number_of_drawings=5000)
 {
@@ -211,7 +211,7 @@ Eigen::VectorXd lambdaMC(const Eigen::Map<Eigen::VectorXd>& lambda_BH,
 //' @references \url{http://www.alexejgossmann.com/grpSLOPE/Lambda/}
 //'
 // [[Rcpp::export]]
-double lambdaChiMCAdjustment(const Eigen::Map<Eigen::VectorXd>& y,
+double lambdaChiMCAdjustmentRcpp(const Eigen::Map<Eigen::VectorXd>& y,
         const Eigen::Map<Eigen::MatrixXd>& X, const Rcpp::List group_id,
         const Eigen::Map<Eigen::VectorXd>& lambda, const Eigen::Map<Eigen::VectorXd>& w,
         int number_of_drawings=5000)

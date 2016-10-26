@@ -6,9 +6,9 @@
 
 using namespace Rcpp;
 
-// lambdaMC
-Eigen::VectorXd lambdaMC(const Eigen::Map<Eigen::VectorXd>& lambda_BH, const Eigen::Map<Eigen::MatrixXd>& X, int lambda_length, int number_of_drawings);
-RcppExport SEXP grpSLOPEMC_lambdaMC(SEXP lambda_BHSEXP, SEXP XSEXP, SEXP lambda_lengthSEXP, SEXP number_of_drawingsSEXP) {
+// lambdaGaussianMCRcpp
+Eigen::VectorXd lambdaGaussianMCRcpp(const Eigen::Map<Eigen::VectorXd>& lambda_BH, const Eigen::Map<Eigen::MatrixXd>& X, int lambda_length, int number_of_drawings);
+RcppExport SEXP grpSLOPEMC_lambdaGaussianMCRcpp(SEXP lambda_BHSEXP, SEXP XSEXP, SEXP lambda_lengthSEXP, SEXP number_of_drawingsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -16,13 +16,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::MatrixXd>& >::type X(XSEXP);
     Rcpp::traits::input_parameter< int >::type lambda_length(lambda_lengthSEXP);
     Rcpp::traits::input_parameter< int >::type number_of_drawings(number_of_drawingsSEXP);
-    rcpp_result_gen = Rcpp::wrap(lambdaMC(lambda_BH, X, lambda_length, number_of_drawings));
+    rcpp_result_gen = Rcpp::wrap(lambdaGaussianMCRcpp(lambda_BH, X, lambda_length, number_of_drawings));
     return rcpp_result_gen;
 END_RCPP
 }
-// lambdaChiMCAdjustment
-double lambdaChiMCAdjustment(const Eigen::Map<Eigen::VectorXd>& y, const Eigen::Map<Eigen::MatrixXd>& X, const Rcpp::List group_id, const Eigen::Map<Eigen::VectorXd>& lambda, const Eigen::Map<Eigen::VectorXd>& w, int number_of_drawings);
-RcppExport SEXP grpSLOPEMC_lambdaChiMCAdjustment(SEXP ySEXP, SEXP XSEXP, SEXP group_idSEXP, SEXP lambdaSEXP, SEXP wSEXP, SEXP number_of_drawingsSEXP) {
+// lambdaChiMCAdjustmentRcpp
+double lambdaChiMCAdjustmentRcpp(const Eigen::Map<Eigen::VectorXd>& y, const Eigen::Map<Eigen::MatrixXd>& X, const Rcpp::List group_id, const Eigen::Map<Eigen::VectorXd>& lambda, const Eigen::Map<Eigen::VectorXd>& w, int number_of_drawings);
+RcppExport SEXP grpSLOPEMC_lambdaChiMCAdjustmentRcpp(SEXP ySEXP, SEXP XSEXP, SEXP group_idSEXP, SEXP lambdaSEXP, SEXP wSEXP, SEXP number_of_drawingsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,7 +32,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd>& >::type lambda(lambdaSEXP);
     Rcpp::traits::input_parameter< const Eigen::Map<Eigen::VectorXd>& >::type w(wSEXP);
     Rcpp::traits::input_parameter< int >::type number_of_drawings(number_of_drawingsSEXP);
-    rcpp_result_gen = Rcpp::wrap(lambdaChiMCAdjustment(y, X, group_id, lambda, w, number_of_drawings));
+    rcpp_result_gen = Rcpp::wrap(lambdaChiMCAdjustmentRcpp(y, X, group_id, lambda, w, number_of_drawings));
     return rcpp_result_gen;
 END_RCPP
 }

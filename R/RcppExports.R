@@ -3,7 +3,7 @@
 
 #' Monte Carlo based adjustment of the SLOPE tuning parameters
 #'
-#' \code{lambdaMC} adjusts the SLOPE regularizing sequence for correlations in 
+#' \code{lambdaGaussianMC} adjusts the SLOPE regularizing sequence for correlations in 
 #'    the data via a Monte Carlo approach which assumes normality of the error terms.
 #'
 #' @param lambda_BH The regualrizing sequence as used in Theorem 1.1 in Bogdan et. al. (2015)
@@ -14,8 +14,8 @@
 #'
 #' @references M. Bogdan, E. van den Berg, C. Sabatti, W. Su, E. Candes (2015), \emph{SLOPE -- Adaptive variable selection via convex optimization}, \url{http://arxiv.org/abs/1407.3824}
 #'
-lambdaMC <- function(lambda_BH, X, lambda_length, number_of_drawings = 5000L) {
-    .Call('grpSLOPEMC_lambdaMC', PACKAGE = 'grpSLOPEMC', lambda_BH, X, lambda_length, number_of_drawings)
+lambdaGaussianMCRcpp <- function(lambda_BH, X, lambda_length, number_of_drawings = 5000L) {
+    .Call('grpSLOPEMC_lambdaGaussianMCRcpp', PACKAGE = 'grpSLOPEMC', lambda_BH, X, lambda_length, number_of_drawings)
 }
 
 #' Monte Carlo based Group SLOPE tuning parameter correction
@@ -37,7 +37,7 @@ lambdaMC <- function(lambda_BH, X, lambda_length, number_of_drawings = 5000L) {
 #' @references D. Brzyski, W. Su, M. Bogdan (2015), \emph{Group SLOPE -- adaptive selection of groups of predictors}, \url{http://arxiv.org/abs/1511.09078}
 #' @references \url{http://www.alexejgossmann.com/grpSLOPE/Lambda/}
 #'
-lambdaChiMCAdjustment <- function(y, X, group_id, lambda, w, number_of_drawings = 5000L) {
-    .Call('grpSLOPEMC_lambdaChiMCAdjustment', PACKAGE = 'grpSLOPEMC', y, X, group_id, lambda, w, number_of_drawings)
+lambdaChiMCAdjustmentRcpp <- function(y, X, group_id, lambda, w, number_of_drawings = 5000L) {
+    .Call('grpSLOPEMC_lambdaChiMCAdjustmentRcpp', PACKAGE = 'grpSLOPEMC', y, X, group_id, lambda, w, number_of_drawings)
 }
 

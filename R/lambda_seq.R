@@ -39,7 +39,7 @@ lambdaGaussianMC <- function(fdr, n.group, group.id, A, n.MC, MC.reps) {
   }
 
   # Monte Carlo corrections for lambda.BH
-  lambda.MC <- lambdaMC(lambda.BH, mA, n.MC, MC.reps)
+  lambda.MC <- lambdaGaussianMCRcpp(lambda.BH, mA, n.MC, MC.reps)
   lambda.MC <- c(lambda.MC, rep(lambda.MC[n.MC], n.group-n.MC))
 
   return(lambda.MC)
@@ -76,8 +76,8 @@ lambdaChiMC <- function(fdr, X, y, group.id, wt, n.MC, MC.reps) {
 
   # get lambda.MC[2:n.MC]
   for (i in 2:n.MC) {
-    s <- lambdaChiMCAdjustment(y=y, X=X, group_id=group.id, lambda=lambda.MC,
-                               w=wt, number_of_drawings=MC.reps)
+    s <- lambdaChiMCAdjustmentRcpp(y=y, X=X, group_id=group.id, lambda=lambda.MC,
+                                   w=wt, number_of_drawings=MC.reps)
 
     cdfMean <- function(x) {
       pchi.seq <- rep(NA, n.group)
@@ -98,7 +98,7 @@ lambdaChiMC <- function(fdr, X, y, group.id, wt, n.MC, MC.reps) {
   }
 
   # get lambda.MC[n.MC:n.group]
-  lambda.MC[(n.MC+1):n.group] <- lambda.MC[n.MC]
+  lambda.MC <- c(lambda.MC, rep(lambda.MC[n.MC], n.group-n.MC))
   
   return(lambda.MC)
 }
