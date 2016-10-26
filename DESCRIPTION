@@ -1,0 +1,22 @@
+Package: grpSLOPEMC
+Type: Package
+Title: Monte Carlo methods for Group SLOPE
+Version: 0.1.0
+Authors@R: c(person("Alexej", "Gossmann", email = "alexej.go@googlemail.com", role = c("aut", "cre")))
+Description: This is an add-on package to the R package grpSLOPE. It adds
+    Monte Carlo based methods for the estimation of the regularizing sequence.
+License: GPL-3
+URL: https://github.com/agisga/grpSLOPEMC.git
+BugReports: https://github.com/agisga/grpSLOPEMC/issues
+LazyData: TRUE
+Imports:
+    Rcpp (>= 0.12.1),
+    grpSLOPE (>= 0.2.0)
+LinkingTo: Rcpp, RcppEigen
+RoxygenNote: 5.0.1.9000
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown,
+    pander
+VignetteBuilder: knitr
