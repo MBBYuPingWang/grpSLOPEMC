@@ -4,23 +4,23 @@ This is an add-on package to the R package [grpSLOPE](https://cran.r-project.org
 
 Your R configuration must allow for a working Rcpp. This is generally not a problem on Unix/Linux, but setting it up on Windows may require some work.
 
-The easiest way to install the latest development version of `grpSLOPE` is by using the R package `devtools`. Just open up an R session and run:
+The easiest way to install the latest development version of `grpSLOPEMC` is by using the R package `devtools`. Just open up an R session and run:
 
 ```R
 # Install devtools, if you haven't already.
 install.packages("devtools")
 
 library(devtools)
-install_github("agisga/grpSLOPE")
+install_github("agisga/grpSLOPEMC")
 ```
 
-If you don't want to use `devtools`, you can install `grpSLOPE` by downloading the source code and then following these steps:
+If you don't want to use `devtools`, you can install `grpSLOPEMC` by downloading the source code and then following these steps:
 
 0. Install the R packages `Rcpp` and `RcppEigen` if you don't have them installed already.
-1. Go to the directory that contains the `grpSLOPE` directory (which contains the `grpSLOPE` source code).
-2. Open an R session and run `Rcpp::compileAttributes("./grpSLOPE")`. Then quit R.
-3. Run `R CMD build grpSLOPE`. You should then have a file like `grpSLOPE_0.1.0.tar.gz`.
-4. Run `R CMD INSTALL grpSLOPE_0.1.0.tar.gz` to install the package.
+1. Go to the directory that contains the `grpSLOPEMC` directory (which contains the `grpSLOPEMC` source code).
+2. Open an R session and run `Rcpp::compileAttributes("./grpSLOPEMC")`. Then quit R.
+3. Run `R CMD build grpSLOPEMC`. You should then have a file like `grpSLOPEMC_0.1.0.tar.gz`.
+4. Run `R CMD INSTALL grpSLOPEMC_0.1.0.tar.gz` to install the package.
 
 ## Contributing
 
@@ -34,7 +34,7 @@ Otherwise, I try to follow [Google's R style guide](https://google.github.io/sty
 ### Workflow
 
 0. Modify the code.
-1. Open `grpSLOPE.Rproj` with RStudio.
+1. Open `grpSLOPEMC.Rproj` with RStudio.
 2. Run `devtools::document()`.
 3. Do "Build and Reload" from the menu (or CTRL-Shift-B).
 4. Do `devtools::test()` to run the unit tests.
