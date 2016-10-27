@@ -94,6 +94,10 @@ lambdaMC <- function(fdr=0.1, group, A, y=NULL, wt=NULL, method,
   group.id <- grpSLOPE::getGroupID(group)
   n.group  <- length(group.id)
 
+  is.pos.int <- function(x) { abs(x) - round(x) < .Machine$double.eps^0.5 }
+  if (!(is.pos.int(n.MC) && is.pos.int(MC.reps))) {
+    stop("n.MC and MC.reps have to be positive integers.")
+  }
   if (n.MC > n.group) {
     warning("n.MC is not allowed to exceed the number of groups.")
     n.MC <- n.group
