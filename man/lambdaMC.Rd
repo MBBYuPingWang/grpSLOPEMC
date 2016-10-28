@@ -2,13 +2,13 @@
 % Please edit documentation in R/lambdaMC.R
 \name{lambdaMC}
 \alias{lambdaMC}
-\title{Regularizing sequence for Group SLOPE}
+\title{Monte Carlo based regularizing sequences for Group SLOPE}
 \usage{
 lambdaMC(fdr = 0.1, group, A, y = NULL, wt = NULL, method, n.MC,
   MC.reps = 5000)
 }
 \arguments{
-\item{fdr}{Target false discovery rate}
+\item{fdr}{Target gFDR (group false discovery rate)}
 
 \item{group}{A vector describing the grouping structure. It should 
 contain a group id for each predictor variable.}
@@ -19,68 +19,51 @@ contain a group id for each predictor variable.}
 
 \item{wt}{A named vector of weights, one weight per group of predictors (named according to names as in vector \code{group})}
 
-\item{method}{Possible values are "BH", "gaussian", "gaussianMC",
-"chiOrthoMax", "chiOrthoMean",  "chiEqual", "chiMean", "chiMC". See under Details.}
+\item{method}{Possible values are "gaussianMC" and "chiMC". See details.}
 
-\item{n.MC}{When \code{method} is "gaussianMC" or "chiMC", the corrections of the entries of lambda will be 
+\item{n.MC}{The corrections of the entries of lambda will be 
 computed up to the index given by \code{n.MC} only. See details.}
 
 \item{MC.reps}{The number of repetitions of the Monte Carlo procedure}
-
-\item{n.group}{Number of groups}
-
-\item{n.obs}{Number of observations (i.e., number of rows in \code{A})}
 }
 \description{
 Generate the regularizing sequence \code{lambda} for the Group SLOPE
-problem according to one of multiple methods.
+problem according to one of multiple Monte Carlo based methods.
 }
 \details{
-Multiple methods are available to generate the regularizing sequence \code{lambda}:
+Two Monte Carlo based methods are currently available to generate the regularizing sequence \code{lambda}:
 \itemize{
-  \item "BH" -- method of Theorem 1.1 in Bogdan et. al. (2015)
-  \item "gaussian" -- method of Section 3.2.2 in Bogdan et. al. (2015)
   \item "gaussianMC" -- method introduced in Gossmann et. al. (2015)
-  \item "chiOrthoMax" -- lambdas as in Theorem 2.5 in Brzyski et. al. (2015)
-  \item "chiOrthoMean" -- lambdas of equation (2.14) in Brzyski et. al. (2015)
-  \item "chiEqual" -- Procedure 1 in Brzyski et. al. (2015)
-  \item "chiMean" -- Procedure 2 in Brzyski et. al. (2015)
-  \item "chiMC" -- (experimental) A Monte Carlo lambda selection method based on equation (2.25)
-           in Brzyski et. al. (2015). Requires that rank(\code{A}) is greater than
+  \item "chiMC" -- A Monte Carlo lambda selection method based on equation (G.10)
+           in Brzyski et. al. (2016). Requires that rank(\code{A}) is greater than
            the sum of the number of elements in any \code{n.MC} groups. 
 }
-When \code{method} is "gaussianMC" or "chiMC", the corrections of the entries of lambda will be 
-computed up to the index given by \code{n.MC} only. \code{n.MC} should be
-less than or equal to \code{n.group}. Since lambda sequences obtained via MC tend to
-flatten out quickly, it is reasonable to choose \code{n.MC} to be much smaller than the
+The corrections of the entries of lambda will be computed up to the index given 
+by \code{n.MC} only (the remaining tail of the returned sequence will be flat). 
+\code{n.MC} should be less than or equal to \code{n.group}. 
+Since lambda sequences obtained via MC tend to flatten out quickly, 
+it is reasonable to choose \code{n.MC} to be much smaller than the
 number of groups.
 }
 \examples{
-fdr     <- 0.1
-n.obs   <- 700
-n.group <- 90
-# generate 90 groups of sizes 5, 10, and 20
-group   <- vector()
-for (i in 1:30) {
-  tmp <- rep((i-1)*3+c(1,2,3), c(5,10,20))
-  group <- c(group, tmp)
-}
+# generate some data
+A <- matrix(rnorm(20000), 200, 100)
+b <- c(rep(1, 10), rep(0, 90))
+y <- A \%*\% b
+# randomly divide 100 predictors into 30 groups
+group <- sample(1:30, 100, repl = TRUE)
 # set the weight for each group to the square root of the group's size
-wt <- rep(c(sqrt(5), sqrt(10), sqrt(20)), 30)
-names(wt) <- names(getGroupID(group))
+wt <- c(sqrt(table(group)))
 # compute different lambda sequences
-lambda.BH <- lambdaGroupSLOPE(fdr=fdr, n.group=n.group, method="BH")
-lambda.G <- lambdaGroupSLOPE(fdr=fdr, n.group=n.group, n.obs=n.obs, method="gaussian")
-lambda.max <- lambdaGroupSLOPE(fdr=fdr, group=group, wt=wt, method="chiOrthoMax") 
-lambda.mean <- lambdaGroupSLOPE(fdr=fdr, group=group, wt=wt, method="chiOrthoMean") 
-lambda.chi <- lambdaGroupSLOPE(fdr=fdr, n.obs=n.obs, group=group, wt=wt, method="chiMean")
+gaussianMC <- lambdaMC(fdr=0.1, group=group, A=A, method="gaussianMC",
+                       n.MC=10, MC.reps=100)
+chiMC <- lambdaMC(fdr=0.2, group=group, A=A, method="chiMC", 
+                  y=y, wt=wt, n.MC=10, MC.reps=100)
 
 }
 \references{
-D. Brzyski, W. Su, M. Bogdan (2015), \emph{Group SLOPE -- adaptive selection of groups of predictors}, \url{http://arxiv.org/abs/1511.09078}
+D. Brzyski, A. Gossmann, W. Su, M. Bogdan (2016), \emph{Group SLOPE - adaptive selection of groups of predictors}, \url{https://arxiv.org/abs/1610.04960}
 
 A. Gossmann, S. Cao, Y.-P. Wang (2015), \emph{Identification of Significant Genetic Variants via SLOPE, and Its Extension to Group SLOPE}, \url{http://dx.doi.org/10.1145/2808719.2808743}
-
-M. Bogdan, E. van den Berg, C. Sabatti, W. Su, E. Candes (2015), \emph{SLOPE -- Adaptive variable selection via convex optimization}, Annals of Applied Statistics
 }
 

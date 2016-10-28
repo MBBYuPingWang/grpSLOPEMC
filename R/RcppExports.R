@@ -20,7 +20,7 @@ lambdaGaussianMCRcpp <- function(lambda_BH, X, lambda_length, number_of_drawings
 
 #' Monte Carlo based Group SLOPE tuning parameter correction
 #'
-#' \code{lambdaChiMCAdjustment} approximates the variance of (2.25) in Brzyski et. al. (2015)
+#' \code{lambdaChiMCAdjustment} approximates the variance of (G.10) in Brzyski et. al. (2016)
 #'    via Monte Carlo, in order to adjust the lambda sequence for correlations in the  data.
 #'
 #' The adjustment is computed for the (s+1)st coefficient of lambda, assuming 
@@ -29,13 +29,12 @@ lambdaGaussianMCRcpp <- function(lambda_BH, X, lambda_length, number_of_drawings
 #'
 #' @param y The response vector 
 #' @param X The model matrix
-#' @param group_id A list obtained from \code{\link{getGroupID}}
+#' @param group_id A list obtained from \code{grpSLOPE::getGroupID}
 #' @param lambda A vector containing the first s entries of lambda
 #' @param w A vector of weights per group
 #' @param number_of_drawings The number of iterations in the Monte Carlo procedure
 #'
-#' @references D. Brzyski, W. Su, M. Bogdan (2015), \emph{Group SLOPE -- adaptive selection of groups of predictors}, \url{http://arxiv.org/abs/1511.09078}
-#' @references \url{http://www.alexejgossmann.com/grpSLOPE/Lambda/}
+#' @references D. Brzyski, A. Gossmann, W. Su, M. Bogdan (2016), \emph{Group SLOPE - adaptive selection of groups of predictors}, \url{https://arxiv.org/abs/1610.04960}
 #'
 lambdaChiMCAdjustmentRcpp <- function(y, X, group_id, lambda, w, number_of_drawings = 5000L) {
     .Call('grpSLOPEMC_lambdaChiMCAdjustmentRcpp', PACKAGE = 'grpSLOPEMC', y, X, group_id, lambda, w, number_of_drawings)

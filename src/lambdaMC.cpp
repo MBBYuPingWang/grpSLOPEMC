@@ -193,7 +193,7 @@ Eigen::VectorXd lambdaGaussianMCRcpp(const Eigen::Map<Eigen::VectorXd>& lambda_B
 
 //' Monte Carlo based Group SLOPE tuning parameter correction
 //'
-//' \code{lambdaChiMCAdjustment} approximates the variance of (2.25) in Brzyski et. al. (2015)
+//' \code{lambdaChiMCAdjustment} approximates the variance of (G.10) in Brzyski et. al. (2016)
 //'    via Monte Carlo, in order to adjust the lambda sequence for correlations in the  data.
 //'
 //' The adjustment is computed for the (s+1)st coefficient of lambda, assuming 
@@ -202,13 +202,12 @@ Eigen::VectorXd lambdaGaussianMCRcpp(const Eigen::Map<Eigen::VectorXd>& lambda_B
 //'
 //' @param y The response vector 
 //' @param X The model matrix
-//' @param group_id A list obtained from \code{\link{getGroupID}}
+//' @param group_id A list obtained from \code{grpSLOPE::getGroupID}
 //' @param lambda A vector containing the first s entries of lambda
 //' @param w A vector of weights per group
 //' @param number_of_drawings The number of iterations in the Monte Carlo procedure
 //'
-//' @references D. Brzyski, W. Su, M. Bogdan (2015), \emph{Group SLOPE -- adaptive selection of groups of predictors}, \url{http://arxiv.org/abs/1511.09078}
-//' @references \url{http://www.alexejgossmann.com/grpSLOPE/Lambda/}
+//' @references D. Brzyski, A. Gossmann, W. Su, M. Bogdan (2016), \emph{Group SLOPE - adaptive selection of groups of predictors}, \url{https://arxiv.org/abs/1610.04960}
 //'
 // [[Rcpp::export]]
 double lambdaChiMCAdjustmentRcpp(const Eigen::Map<Eigen::VectorXd>& y,
