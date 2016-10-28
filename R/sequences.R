@@ -51,6 +51,9 @@ lambdaChiMC <- function(fdr, X, y, group.id, wt, n.MC, MC.reps) {
   group.sizes <- sapply(group.id, FUN=length)
   lambda.MC   <- vector()
 
+  # make sure weights are in the same order as group.id
+  wt <- wt[names(group.id)]
+
   cdfMean <- function(x) {
     pchi.seq <- rep(NA, n.group)
     for (i in 1:n.group) {
