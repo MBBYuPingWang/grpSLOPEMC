@@ -1,6 +1,6 @@
-This is an add-on package to the R package [grpSLOPE](https://cran.r-project.org/package=grpSLOPE). It contains Monte Carlo based methods for the estimation of the regularizing sequence.
+This is an extension package to the R package [grpSLOPE](https://cran.r-project.org/package=grpSLOPE). It contains Monte Carlo based methods for the estimation of the regularizing sequence.
 
-**This package contains exactly one function, `lambdaMC`. This package is designed to be used in conjunction with the R package [grpSLOPE](https://cran.r-project.org/package=grpSLOPE).**
+Essentially, this package contains only one function, `lambdaMC`. However it will automatically install the R package [grpSLOPE](https://cran.r-project.org/package=grpSLOPE) as a dependency, which contains all the remaining functionality.
 
 ## Installation
 
